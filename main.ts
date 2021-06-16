@@ -17,15 +17,17 @@ function setUpStopper () {
     true
     )
 }
-
 function makeArrow () {
-    let arrowNumber = randint(0,3)
-	let arrow = sprites.create(arrowImgs[arrowNumber],SpriteKind.Food)
-arrow.y = 0
-arrow.vy = 80
-
+    arrowNumber = randint(0, 3)
+    arrow = sprites.create(arrowImgs[arrowNumber], SpriteKind.Food)
+    arrow.y = 0
+    arrow.vy = 80
+    arrow.x = arrowXs[arrowNumber]
 }
+let arrow: Sprite = null
+let arrowNumber = 0
 let stopper: Sprite = null
+let arrowImgs: Image[] = []
 scene.setBackgroundImage(img`
     ................................................................................................................................................................
     ................................................................................................................................................................
@@ -148,7 +150,8 @@ scene.setBackgroundImage(img`
     33f99999999999999f33333333333333f9999999999999999f55555555555555f333333333333333f8888888888888888f7777777777777777f33333333333333333333f8888888888888888888888f7
     3f99999999999999f33333333333333f9999999999999999f555555555555555f333333333333333f88888888888888888f7777777777777777f33333333333333333333f8888888888888888888888f
     `)
-let arrowImgs = [img`
+let arrowXs = [35, 65, 95, 125]
+arrowImgs = [img`
     6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
     6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
     6 6 6 6 6 1 6 6 6 6 6 6 6 6 6 6 
@@ -238,6 +241,15 @@ let dancer = sprites.create(img`
     . . . . f f . . . . . . f f . . 
     `, SpriteKind.Player)
 dancer.y = 100
+dancer.x = arrowXs[1]
 game.onUpdateInterval(500, function () {
     makeArrow()
 })
+
+controller.left.onEvent(ControllerButtonEvent.Pressed,function()
+{dancer.x = arrowXs[0]}
+)
+controller.up.onEvent(ControllerButtonEvent.Pressed,function()
+{dancer.x = arrowXs[1]}
+)
+
